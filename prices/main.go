@@ -42,13 +42,13 @@ func fetchPrice(url string, coinID string) (string, error) {
 }
 
 type Price struct {
-	ID        int64     `json:"id"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        int64      `json:"id"`
+	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt *time.Time `json:"updated_at"`
-	Source    *string   `json:"source"`
-	Value     int64     `json:"value"`
-	Decimal   int64     `json:"decimal"`
-	Code      *string   `json:"code"`
+	Source    *string    `json:"source"`
+	Value     int64      `json:"value"`
+	Decimal   int64      `json:"decimal"`
+	Code      *string    `json:"code"`
 }
 
 func main() {
@@ -91,21 +91,6 @@ func main() {
 			}
 		}
 		c.JSON(http.StatusOK, p)
-	})
-
-	router.GET("/price", func(c *gin.Context) {
-		url := "https://www.coingecko.com/en/coins/turtle-2"
-		coinID := "68717"
-		price, err := fetchPrice(url, coinID)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			return
-		}
-		if price == "" {
-			c.JSON(http.StatusNotFound, gin.H{"error": "Coin price not found"})
-			return
-		}
-		c.JSON(http.StatusOK, gin.H{"coin_id": coinID, "price_usd": price})
 	})
 
 	log.Println("Server running at http://localhost:8080")
