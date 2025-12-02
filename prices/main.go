@@ -94,5 +94,10 @@ func main() {
 	})
 
 	log.Println("Server running at http://localhost:8080")
-	router.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	log.Printf("Server running at http://localhost:%s", port)
+	router.Run(":" + port)
 }
